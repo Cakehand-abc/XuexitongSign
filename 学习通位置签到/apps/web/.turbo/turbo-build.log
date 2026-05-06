@@ -1,0 +1,4 @@
+
+> web@2.7.0 build F:\Xuexitong\chaoxing-signin\apps\web
+> tsc && vite build
+

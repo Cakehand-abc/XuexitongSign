@@ -1,0 +1,5 @@
+
+> server@4.3.5 build F:\Xuexitong\chaoxing-signin\apps\server
+> tsc && node ./src/scripts/cplibs.js
+
+已复制         1 个文件。
