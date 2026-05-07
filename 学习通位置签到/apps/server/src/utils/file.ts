@@ -2,37 +2,42 @@ import filehandle from 'fs';
 import path from 'path';
 
 interface LocalData {
-  users: User[];
+  users: Record<string, User>;
 }
 
 /**
  * 储存用户凭证
  */
 export const storeUser = (phone: string, user: User): User[] => {
-  const data: LocalData = getJsonObject('configs/storage.json');
-  let i = 0;
+  const data: any = getJsonObject('configs/storage.json');
   user.phone = phone;
 
-  // 存了则替换
-  for (; i < data.users.length; i++) {
-    if (data.users[i].phone === phone) {
-      data.users[i] = user;
-      break;
+  // 兼容旧的数组格式并进行迁移
+  if (Array.isArray(data.users)) {
+    const usersObj: Record<string, User> = {};
+    for (const u of data.users) {
+      if (u.phone) usersObj[u.phone] = u;
     }
+    data.users = usersObj;
   }
-  // 未存则push
-  if (i === data.users.length) {
-    data.users.push(user);
-  }
+
+  data.users[phone] = user;
+
   filehandle.writeFileSync(path.join(__dirname, '../configs/storage.json'), JSON.stringify(data), 'utf8');
-  return data.users;
+  return Object.values(data.users as Record<string, User>);
 };
 
 export const getStoredUser = (phone: string): User | null => {
-  const data: User[] = getJsonObject('configs/storage.json').users;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].phone === phone) {
-      return JSON.parse(JSON.stringify(data[i]));
+  const users: any = getJsonObject('configs/storage.json').users;
+  if (Array.isArray(users)) {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].phone === phone) {
+        return JSON.parse(JSON.stringify(users[i]));
+      }
+    }
+  } else if (users && typeof users === 'object') {
+    if (users[phone]) {
+      return JSON.parse(JSON.stringify(users[phone]));
     }
   }
   return null;

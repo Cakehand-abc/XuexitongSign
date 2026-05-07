@@ -147,9 +147,11 @@ export const getPanToken = async (cookies: BasicCookie) => {
 export const getLocalUsers = () => {
   const data = getJsonObject('configs/storage.json');
   const arr = [];
-  for (let i = 0; i < data.users.length; i++) {
+  const users = Array.isArray(data.users) ? data.users : Object.values(data.users as Record<string, User>);
+
+  for (let i = 0; i < users.length; i++) {
     arr.push({
-      title: data.users[i].phone,
+      title: users[i].phone,
       value: i,
     });
   }
