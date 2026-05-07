@@ -121,18 +121,6 @@ export const parseEnc = (file: File): Promise<string> => {
   });
 };
 
-// [推荐] 使用腾讯云OCR解析ENC，请在cli项目中配置secretId和secretKey
-// export const parseEnc = async (inputFile: File) => {
-//   const data = new FormData();
-//   data.append('file', inputFile);
-//   const res = await Fetch(ocr_api, {
-//     method: 'POST',
-//     body: data,
-//     type: 'text'
-//   });
-//   return res;
-// };
-
 export const uploadFile = async (userParams: UserParamsType, inputFile: File, token: string) => {
   // 填入FormData
   const data = new FormData();
