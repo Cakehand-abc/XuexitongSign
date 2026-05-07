@@ -30,7 +30,6 @@ router.post('/login', async (ctx) => {
     return;
   }
   params.name = (await getAccountInfo(params)) || '获取失败';
-  console.log(ctx.request.body);
   ctx.body = params;
 });
 

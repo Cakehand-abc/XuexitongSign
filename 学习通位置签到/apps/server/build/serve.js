@@ -31,7 +31,6 @@ router.post('/login', async (ctx) => {
         return;
     }
     params.name = (await (0, user_1.getAccountInfo)(params)) || '获取失败';
-    console.log(ctx.request.body);
     ctx.body = params;
 });
 router.post('/activity', async (ctx) => {
