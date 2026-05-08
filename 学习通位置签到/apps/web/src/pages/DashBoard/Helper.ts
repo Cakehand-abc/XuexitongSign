@@ -115,7 +115,6 @@ export const parseEnc = (file: File): Promise<string> => {
         resolve(rs);
       })
       .catch((reason: any) => {
-        console.log(reason);
         resolve('识别失败');
       });
   });
